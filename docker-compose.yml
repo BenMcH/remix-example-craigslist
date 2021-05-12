@@ -1,9 +1,10 @@
 version: "3.7"
 services:
   remix:
-    args:
-      REMIX_AUTH: ${REMIX_AUTH}
-    build: .
+    build:
+      context: .
+      args: 
+        REMIX_AUTH: ${REMIX_AUTH}
     image: remix-list
     ports:
       - 3000:3000
