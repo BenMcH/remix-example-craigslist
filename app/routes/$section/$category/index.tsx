@@ -1,12 +1,9 @@
 import { MetaFunction, LinksFunction, LoaderFunction, redirect, useRouteData, Link, Form, ActionFunction  } from "remix";
-import Chance from 'chance';
 import {v4} from 'uuid';
 
 import stylesUrl from "../../../styles/category.css";
 import { getCategory } from '../../../services/category';
 import { getPosts, IPost, addPost } from '../../../services/posts';
-
-const chance = new Chance();
 
 export let meta: MetaFunction = () => {
   return {
