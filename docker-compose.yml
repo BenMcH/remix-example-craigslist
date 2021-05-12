@@ -1,0 +1,7 @@
+version: "3.7"
+services:
+  remix:
+    build: .
+    image: remix-list
+    ports:
+      - 3000:3000
