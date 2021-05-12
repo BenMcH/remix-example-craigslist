@@ -4,6 +4,7 @@ export interface IPost {
   postedAt: string
   email: string
   postId: string
+  categoryId: string
 }
 
 const db = new Map<string, IPost[]>();

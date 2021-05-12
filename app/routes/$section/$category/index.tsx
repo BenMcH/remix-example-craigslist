@@ -1,7 +1,8 @@
 import { MetaFunction, LinksFunction, LoaderFunction, redirect, useRouteData, Link, Form, ActionFunction  } from "remix";
 import Chance from 'chance';
+import {v4} from 'uuid';
 
-import stylesUrl from "../../../styles/index.css";
+import stylesUrl from "../../../styles/category.css";
 import { getCategory } from '../../../services/category';
 import { getPosts, IPost, addPost } from '../../../services/posts';
 
@@ -19,11 +20,24 @@ export let links: LinksFunction = () => {
 };
 
 export let action: ActionFunction = async ({ request, params: {category, section} }) => {
+  const text = (await request.text());
+  const body = new URLSearchParams(text);
+
+  const title = body.get('title');
+  const content = body.get('content');
+  const email = body.get('email');
+  const postId = v4()
+
+  if (!title || !content || !email) {
+    return redirect('/')
+  }
+
   const post: IPost = {
-      title: chance.sentence(),
-      content: chance.paragraph(),
-      email: chance.email(),
-      postId: chance.guid(),
+      title,
+      categoryId: category,
+      content,
+      email,
+      postId,
       postedAt: new Date().toISOString()
   }
 
@@ -72,9 +86,15 @@ export default function Index() {
           <small>{post.postedAt}</small>
         </article>
       ))}
+      <h3>{'Add a new post'}</h3>
       <Form method="post" action="">
-        <h3>{'Add a new post'}</h3>
-        <button type="submit">{'Create Random Post'}</button>
+        <label>Title: </label>
+        <input type="text" name="title" required />
+        <label>Content: </label>
+        <textarea name="content" required rows={10} />
+        <label>Email: </label>
+        <input type="text" name="email" required />
+        <button type="submit">{'Create Post'}</button>
       </Form>
     </div>
   );
